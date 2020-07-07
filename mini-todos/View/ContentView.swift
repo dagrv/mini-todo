@@ -14,6 +14,8 @@ struct ContentView: View {
     @FetchRequest(entity: Todo.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Todo.name, ascending: true)]) var todos: FetchedResults<Todo>
     
     @State private var showingAddTodoView: Bool = false
+    @State private var animatingButton: Bool = false
+    
     
     // MARK: - Body
     var body: some View {
@@ -34,7 +36,10 @@ struct ContentView: View {
                 } //: END List
                 .navigationBarTitle("All")
                 .navigationBarItems(
+                    // EDIT Button
                     leading: EditButton(),
+                    
+                    // ADD Button
                     trailing:
                     Button(action: {
                         self.showingAddTodoView.toggle()
@@ -54,6 +59,46 @@ struct ContentView: View {
                 }
                 
             } //: END ZStack
+            .sheet(isPresented: $showingAddTodoView) {
+                AddTodoView().environment(\.managedObjectContext, self.managedObjectContext)
+            }
+        .overlay(
+            ZStack {
+                
+                // Circles (+) Bottom Button
+                Group {
+                    Circle()
+                        .fill(Color.blue)
+                        .opacity(self.animatingButton ? 0.6 : 0)
+                        .scaleEffect(self.animatingButton ? 1 : 0)
+                        .frame(width: 68, height: 68, alignment: .center)
+                    
+                    Circle()
+                        .fill(Color.blue)
+                        .opacity(self.animatingButton ? 0.3 : 0)
+                        .scaleEffect(self.animatingButton ? 1 : 0)
+                        .frame(width: 88, height: 88, alignment: .center)
+                }
+                .animation(Animation.easeInOut(duration: 4).repeatForever(autoreverses: true))
+                
+                Button(action: {
+                    self.showingAddTodoView.toggle()
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(Color.white)
+                        .background(Circle().fill(Color.black)) //MARK: TO CHANGE IF NOT OK ON DARK MODE
+                        .frame(width: 50, height: 50, alignment: .center)
+                } //: END Button
+                .onAppear(perform: {
+                    self.animatingButton.toggle()
+                })
+            } //: END ZStack
+                .padding(.bottom, 13)
+            .padding(.trailing, 25)
+            , alignment: .bottomTrailing
+        )
         } //: END NavigationView
     }
     
