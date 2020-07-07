@@ -14,6 +14,7 @@
 		522FFBC324B3C560000FBE35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 522FFBC224B3C560000FBE35 /* Assets.xcassets */; };
 		522FFBC624B3C560000FBE35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 522FFBC524B3C560000FBE35 /* Preview Assets.xcassets */; };
 		522FFBC924B3C560000FBE35 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522FFBC724B3C560000FBE35 /* LaunchScreen.storyboard */; };
+		522FFBD224B3C656000FBE35 /* AddTodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522FFBD124B3C656000FBE35 /* AddTodoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		522FFBC524B3C560000FBE35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		522FFBC824B3C560000FBE35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		522FFBCA24B3C560000FBE35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		522FFBD124B3C656000FBE35 /* AddTodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +60,9 @@
 		522FFBB824B3C55F000FBE35 /* mini-todos */ = {
 			isa = PBXGroup;
 			children = (
+				522FFBD024B3C61A000FBE35 /* View */,
 				522FFBB924B3C55F000FBE35 /* AppDelegate.swift */,
 				522FFBBB24B3C55F000FBE35 /* SceneDelegate.swift */,
-				522FFBC024B3C55F000FBE35 /* ContentView.swift */,
 				522FFBC224B3C560000FBE35 /* Assets.xcassets */,
 				522FFBC724B3C560000FBE35 /* LaunchScreen.storyboard */,
 				522FFBCA24B3C560000FBE35 /* Info.plist */,
@@ -76,6 +78,15 @@
 				522FFBC524B3C560000FBE35 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		522FFBD024B3C61A000FBE35 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				522FFBC024B3C55F000FBE35 /* ContentView.swift */,
+				522FFBD124B3C656000FBE35 /* AddTodoView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +164,7 @@
 				522FFBBC24B3C55F000FBE35 /* SceneDelegate.swift in Sources */,
 				522FFBC124B3C55F000FBE35 /* ContentView.swift in Sources */,
 				522FFBBF24B3C55F000FBE35 /* mini_todos.xcdatamodeld in Sources */,
+				522FFBD224B3C656000FBE35 /* AddTodoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,10 +1,8 @@
-//
 //  SceneDelegate.swift
 //  mini-todos
 //
 //  Created by rust on 06/07/2020.
 //  Copyright © 2020 rust. All rights reserved.
-//
 
 import UIKit
 import SwiftUI

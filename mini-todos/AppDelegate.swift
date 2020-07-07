@@ -1,18 +1,14 @@
-//
 //  AppDelegate.swift
 //  mini-todos
 //
 //  Created by rust on 06/07/2020.
 //  Copyright © 2020 rust. All rights reserved.
-//
 
 import UIKit
 import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
