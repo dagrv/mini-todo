@@ -6,12 +6,15 @@
 
 import SwiftUI
 
-
-
 struct SettingsView: View {
     //MARK: - Properties
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var iconSettings: IconNames
+    
+    //MARK: - Theme
+    let themes: [Theme] = themeData
+    @ObservedObject var theme = ThemeSettings()
+    @State private var isThemeChanged: Bool = false
     
     //MARK: - Body
     var body: some View {
@@ -50,9 +53,46 @@ struct SettingsView: View {
                                 }
                             }
                         }
-                    } //: END Section
+                    } //: END Section 1
                     .padding(.vertical, 3)
                     
+                    //MARK: - Section 2
+                    Section(header:
+                        HStack {
+                            Text("Current App Theme")
+                            Image(systemName: "circle.fill")
+                                .imageScale(.medium)
+                                //.resizable()
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(themes[self.theme.themeSettings].themeColor)
+                        }
+                    ) {
+                        List {
+                            ForEach(themes, id: \.id) { item in
+                                Button(action: {
+                                    self.theme.themeSettings = item.id
+                                    UserDefaults.standard.set(self.theme.themeSettings, forKey: "Theme")
+                                    self.isThemeChanged.toggle()
+                                }) {
+                                    HStack {
+                                        Image(systemName: "circle.fill")
+                                            .foregroundColor(item.themeColor)
+                                        Text(item.themeName)
+                                    }
+                                } //: END Button
+                                .accentColor(Color.primary)
+                            }
+                        }
+                    }
+                    //: END Section 2
+                    .padding(.vertical, 3)
+                    .alert(isPresented: $isThemeChanged) {
+                        Alert(
+                            title: Text("One more thing"),
+                            message: Text("cApp Theme has been changed to \(themes[self.theme.themeSettings].themeName). You can now restart the app to fully apply."),
+                            dismissButton: .default(Text("Cool"))
+                        )
+                    }
                     
                     // MARK: - Section' 3
                     Section(header: Text("")) {
@@ -93,6 +133,7 @@ struct SettingsView: View {
             .navigationBarTitle(Text("Settings"))
             .background(Color("ColorBackground").edgesIgnoringSafeArea(.all))
         } //: END Navigation
+        .accentColor(themes[self.theme.themeSettings].themeColor)
     }
 }
 

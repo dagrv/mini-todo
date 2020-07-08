@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct AddTodoView: View {
+    
     // MARK: - Properties
     @Environment(\.managedObjectContext) var managedObjectContext
     @Environment(\.presentationMode) var presentationMode
@@ -19,6 +20,11 @@ struct AddTodoView: View {
     @State private var errorShowing: Bool = false
     @State private var errorTitle: String = ""
     @State private var errorMessage: String = ""
+    
+    //MARK: Accent Color Modifier
+    @ObservedObject var theme = ThemeSettings()
+    var themes: [Theme] = themeData
+    
     
     // MARK: - Body
     var body: some View {
@@ -65,14 +71,13 @@ struct AddTodoView: View {
                         Text("Save").font(.system(size: 23, weight: .semibold, design: .default))
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(Color.green)
+                        .background(themes[self.theme.themeSettings].themeColor)
                         .foregroundColor(Color.white)
                         .cornerRadius(10)
                     } //: END Save Button
                 } //: END VStack
                     .padding(.horizontal)
                 .padding(.vertical, 30)
-                
                 
                 Spacer()
                 
@@ -90,6 +95,7 @@ struct AddTodoView: View {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("Cool")))
             }
         } //: END Navigation
+        .accentColor(themes[self.theme.themeSettings].themeColor)
     }
 }
 

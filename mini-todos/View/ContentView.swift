@@ -19,6 +19,9 @@ struct ContentView: View {
     @State private var showingAddTodoView: Bool = false
     @State private var animatingButton: Bool = false
     
+    //MARK: Accent Color Modifier
+    @ObservedObject var theme = ThemeSettings()
+    var themes: [Theme] = themeData
     
     // MARK: - Body
     var body: some View {
@@ -28,10 +31,24 @@ struct ContentView: View {
                 List {
                     ForEach(self.todos, id: \.self) { todo in
                         HStack {
+                            Circle().frame(width: 12, height: 12, alignment: .center)
+                                .foregroundColor(self.colorize(priority: todo.priority ?? "Normal"))
+                            
                             Text(todo.name ?? "Undefined")
+                                .fontWeight(.semibold)
+                            
                             Spacer()
+                            
                             Text(todo.priority ?? "Undefined")
+                                .font(.footnote)
+                                .foregroundColor(Color.gray)
+                                .padding(3)
+                                .frame(minWidth: 62)
+                                .overlay(
+                                    Capsule().stroke((Color.gray), lineWidth: 0.75)
+                                )
                         } //: END HStack
+                            .padding(.vertical, 10)
                     } //: END ForEach
                     
                     .onDelete(perform: deleteTodo)
@@ -40,7 +57,7 @@ struct ContentView: View {
                 .navigationBarTitle("All")
                 .navigationBarItems(
                     // EDIT Button
-                    leading: EditButton(),
+                    leading: EditButton().accentColor(themes[self.theme.themeSettings].themeColor),
                     
                     // ADD Button
                     trailing:
@@ -49,7 +66,7 @@ struct ContentView: View {
                     }) {
                         Image(systemName: "gear").imageScale(.large)
                     } //: END (+) Add Button
-                    
+                    .accentColor(themes[self.theme.themeSettings].themeColor)
                     .sheet(isPresented: $showingSettingsView) {
                         SettingsView().environmentObject(self.iconSettings)
                     }
@@ -71,13 +88,13 @@ struct ContentView: View {
                 // Circles (+) Bottom Button
                 Group {
                     Circle()
-                        .fill(Color.blue)
+                        .fill((themes[self.theme.themeSettings].themeColor))
                         .opacity(self.animatingButton ? 0.6 : 0)
                         .scaleEffect(self.animatingButton ? 1 : 0)
                         .frame(width: 68, height: 68, alignment: .center)
                     
                     Circle()
-                        .fill(Color.blue)
+                        .fill((themes[self.theme.themeSettings].themeColor))
                         .opacity(self.animatingButton ? 0.3 : 0)
                         .scaleEffect(self.animatingButton ? 1 : 0)
                         .frame(width: 88, height: 88, alignment: .center)
@@ -116,6 +133,20 @@ struct ContentView: View {
             } catch {
                 print(error)
             }
+        }
+    }
+    
+    // Def colorize via priorities
+    private func colorize(priority: String) -> Color {
+        switch priority {
+        case "High":
+            return .pink
+        case "Normal":
+            return .yellow
+        case "Low":
+            return .green
+        default:
+            return .white
         }
     }
 }
