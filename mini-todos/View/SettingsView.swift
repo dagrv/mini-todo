@@ -11,12 +11,48 @@ import SwiftUI
 struct SettingsView: View {
     //MARK: - Properties
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var iconSettings: IconNames
     
     //MARK: - Body
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 0) {
                 Form {
+                    // MARK: - Section' 2
+                    Section(header: Text("")) {
+                        Picker(selection: $iconSettings.currentIndex, label: Text("App Icon")) {
+                            ForEach(0..<iconSettings.iconNames.count) { index in
+                                HStack {
+                                    Image(uiImage: UIImage(named: self.iconSettings.iconNames[index] ?? "BlueDark") ?? UIImage())
+                                        .renderingMode(.original)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 45, height: 45)
+                                    .cornerRadius(9)
+                                    
+                                    Spacer().frame(width: 8)
+                                    
+                                    Text(self.iconSettings.iconNames[index] ?? "Blue")
+                                        .frame(alignment: .leading)
+                                } //: END HStack
+                                .padding(3)
+                            } //: END ForEach
+                        } //: END Picker
+                        .onReceive([self.iconSettings.currentIndex].publisher.first()) { (value) in
+                            let index = self.iconSettings.iconNames.firstIndex(of: UIApplication.shared.alternateIconName) ?? 0
+                            if index != value {
+                                UIApplication.shared.setAlternateIconName(self.iconSettings.iconNames[value]) { error in
+                                    if let error = error {
+                                        print(error.localizedDescription)
+                                    } else {
+                                        print("Success! Icon Changed. ")
+                                    }
+                                }
+                            }
+                        }
+                    } //: END Section
+                    .padding(.vertical, 3)
+                    
                     
                     // MARK: - Section' 3
                     Section(header: Text("")) {
@@ -63,6 +99,6 @@ struct SettingsView: View {
 //MARK: - Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView().environmentObject(IconNames())
     }
 }

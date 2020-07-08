@@ -7,11 +7,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    // MARK: - Properties
     
+    // MARK: - Properties
     @Environment(\.managedObjectContext) var managedObjectContext
     
     @FetchRequest(entity: Todo.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Todo.name, ascending: true)]) var todos: FetchedResults<Todo>
+    
+    @EnvironmentObject var iconSettings: IconNames
     
     @State private var showingSettingsView: Bool = false
     @State private var showingAddTodoView: Bool = false
@@ -49,7 +51,7 @@ struct ContentView: View {
                     } //: END (+) Add Button
                     
                     .sheet(isPresented: $showingSettingsView) {
-                        SettingsView()
+                        SettingsView().environmentObject(self.iconSettings)
                     }
                     
                 )
